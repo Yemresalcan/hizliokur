@@ -1,0 +1,16 @@
+<svg width="512" height="512" viewBox="0 0 72 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="hoGradH" x1="0" y1="0" x2="37" y2="56" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stopColor="#06b6d4" />
+      <stop offset="100%" stopColor="#3b82f6" />
+    </linearGradient>
+    <linearGradient id="hoGradO" x1="21" y1="0" x2="72" y2="56" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stopColor="#ec4899" />
+      <stop offset="100%" stopColor="#8b5cf6" />
+    </linearGradient>
+  </defs>
+  
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M46 5C33.2975 5 23 15.2975 23 28C23 40.7025 33.2975 51 46 51C58.7025 51 69 40.7025 69 28C69 15.2975 58.7025 5 46 5ZM32 28C32 20.268 38.268 14 46 14C53.732 14 60 20.268 60 28C60 35.732 53.732 42 46 42C38.268 42 32 35.732 32 28Z" fill="url(#hoGradO)"/>
+
+  <path d="M5 9C5 6.79086 6.79086 5 9 5C11.2091 5 13 6.79086 13 9V24H31V9C31 6.79086 32.7909 5 35 5C37.2091 5 39 6.79086 39 9V47C39 49.2091 37.2091 51 35 51C32.7909 51 31 49.2091 31 47V32H13V47C13 49.2091 11.2091 51 9 51C6.79086 51 5 49.2091 5 47V9Z" fill="url(#hoGradH)" stroke="#0a0a0c" stroke-width="3" stroke-linejoin="round"/>
+</svg>

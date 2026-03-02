@@ -203,8 +203,9 @@ const App: React.FC = () => {
                 <h1 className="text-3xl font-display font-bold tracking-tight text-white mb-1 group-active:opacity-70 transition-opacity">HızlıOkur</h1>
                 <p className="text-secondary text-sm font-medium group-active:opacity-70 transition-opacity">Kütüphanen</p>
               </button>
-              <div className="w-10 h-10 rounded-full bg-surfaceHighlight border border-white/10 flex items-center justify-center">
-                <span className="text-xs font-bold text-accent">AI</span>
+              <div className="w-10 h-10 rounded-full bg-surfaceHighlight border border-white/10 flex items-center justify-center relative overflow-hidden shadow-[0_0_15px_rgba(139,92,246,0.15)]">
+                <div className="absolute inset-0 bg-gradient-to-tr from-cyan-500/10 via-blue-500/10 to-purple-500/10" />
+                <span className="text-xs font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400 z-10">AI</span>
               </div>
             </div>
             <div className="flex-1 w-full max-w-2xl mx-auto">

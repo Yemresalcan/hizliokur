@@ -323,7 +323,7 @@ export const TextInput: React.FC<TextInputProps> = ({ onStartReading }) => {
                     <button 
                       onClick={() => setShowAiPanel(!showAiPanel)}
                       disabled={isGenerating}
-                      className={`p-2 rounded-xl transition-all disabled:opacity-50 flex items-center gap-1.5 ${showAiPanel ? 'bg-accent text-white' : 'text-accent hover:text-accent/80 bg-accent/10'}`}
+                      className={`p-2 rounded-xl transition-all disabled:opacity-50 flex items-center gap-1.5 ${showAiPanel ? 'bg-gradient-to-r from-[#06b6d4] via-[#3b82f6] to-[#8b5cf6] text-white shadow-lg shadow-purple-500/25' : 'text-purple-400 hover:text-pink-400 bg-gradient-to-r from-cyan-500/10 to-purple-500/10 hover:from-cyan-500/20 hover:to-purple-500/20'}`}
                       title="AI ile Oluştur"
                     >
                       {isGenerating ? <Loader2 size={18} className="animate-spin" /> : <Sparkles size={18} />}
