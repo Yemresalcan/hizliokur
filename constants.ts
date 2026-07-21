@@ -1,12 +1,6 @@
 export const MODELS = {
-  textGeneration: 'gemini-3-flash-preview',
-  tts: 'gemini-2.5-flash-preview-tts',
-} as const;
-
-export const AUDIO = {
-  sampleRate: 24000,
-  voiceName: 'Kore',
-  ttsMaxChars: 8000,
+  /** OpenRouter model id — https://openrouter.ai/models */
+  textGeneration: 'nvidia/nemotron-3-ultra-550b-a55b:free',
 } as const;
 
 export const WPM = {

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import * as pdfjsLib from 'pdfjs-dist';
 import { ChevronLeft, ChevronRight, X, Play, Loader2 } from 'lucide-react';
+import { useI18n } from '../i18n/I18nContext';
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjsLib.version}/build/pdf.worker.min.mjs`;
 
@@ -23,6 +24,7 @@ export const PdfPageViewer: React.FC<PdfPageViewerProps> = ({
   onResume,
   onClose,
 }) => {
+  const { t } = useI18n();
   const [totalPages, setTotalPages] = useState(0);
   const [currentPage, setCurrentPage] = useState(() => {
     // Start viewer on the page where user left off
@@ -201,7 +203,9 @@ export const PdfPageViewer: React.FC<PdfPageViewerProps> = ({
           className="flex items-center gap-2 px-6 py-3 bg-accent hover:bg-accent/90 text-white font-bold rounded-full active:scale-95 transition-all shadow-lg"
         >
           <Play size={16} fill="currentColor" />
-          {currentPage === 1 && savedProgress === 0 ? 'Okumaya Başla' : `${currentPage}. sayfadan başla`}
+          {currentPage === 1 && savedProgress === 0
+            ? t('pdf.start')
+            : t('pdf.startFromPage', { page: currentPage })}
         </button>
       </div>
     </div>

@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
+import { useI18n } from "../i18n/I18nContext";
+import { TranslationKey } from "../i18n/translations";
 
 interface OnboardingProps {
   onDone: () => void;
@@ -91,94 +93,27 @@ const DECO: DecoDot[] = [
   { x: 86, y: 18, size: 12, bg: "#f87171" },
 ];
 
-/* ─── Slide data ─────────────────────────────────────────────── */
-const SLIDES: Array<{
-  title: [string, string];
-  subtitle: string;
-  cards: CardDef[];
-}> = [
-  {
-    title: ["Oku, anla,", "ilham al"],
-    subtitle:
-      "HızlıOkur ile okuma hızını 2\u20133 katına çıkar. Aynı sürede çok daha fazlasını oku.",
-    cards: [
-      {
-        icon: <Img3D src="/images/books-3d.png" alt="Books" />,
-        label: "Hız Kazan",
-        labelColor: "#a5d8ff",
-      },
-      {
-        icon: <Img3D src="/images/target-3d.png" alt="Target" />,
-        label: "Tam Odak",
-        labelColor: "#b2f2bb",
-      },
-      {
-        icon: <Img3D src="/images/phone-3d.png" alt="Phone" />,
-        label: "Her Yerde",
-        labelColor: "#d0bfff",
-      },
-      {
-        icon: <Img3D src="/images/stars-3d.png" alt="Stars" />,
-        label: "AI Destekli",
-        labelColor: "#ffec99",
-      },
-    ],
-  },
-  {
-    title: ["Kelimeler", "sana gelir"],
-    subtitle:
-      "RSVP tekniği göz hareketini sıfırlar. Her kelime sabit odak noktasında belirir, sen sadece okursun.",
-    cards: [
-      {
-        icon: <Img3D src="/images/eye-3d.png" alt="Eye" />,
-        label: "Sabit Bakış",
-        labelColor: "#a5d8ff",
-      },
-      {
-        icon: <Img3D src="/images/lightning-3d.png" alt="Lightning" />,
-        label: "500 WPM",
-        labelColor: "#ffec99",
-      },
-      {
-        icon: <Img3D src="/images/openbook-3d.png" alt="Open Book" />,
-        label: "Daha Fazlası",
-        labelColor: "#b2f2bb",
-      },
-      {
-        icon: <Img3D src="/images/brain-3d.png" alt="Brain" />,
-        label: "Derin Anlayış",
-        labelColor: "#d0bfff",
-      },
-    ],
-  },
-  {
-    title: ["İçeriğini", "sen seç"],
-    subtitle:
-      "PDF yükle, metin yapıştır ya da Gemini AI ile anında Türkçe pratik okuma metni oluştur.",
-    cards: [
-      {
-        icon: <Img3D src="/images/pdf-3d.png" alt="PDF" />,
-        label: "PDF Yükle",
-        labelColor: "#ffc9c9",
-      },
-      {
-        icon: <Img3D src="/images/clipboard-3d.png" alt="Clipboard" />,
-        label: "Metin Yapıştır",
-        labelColor: "#a5d8ff",
-      },
-      {
-        icon: <Img3D src="/images/robot-3d.png" alt="Robot" />,
-        label: "AI ile Oluştur",
-        labelColor: "#d0bfff",
-      },
-      {
-        icon: <Img3D src="/images/rocket-3d.png" alt="Rocket" />,
-        label: "Hemen Başla",
-        labelColor: "#ffec99",
-      },
-    ],
-  },
-];
+/* ─── Slide icon shells (labels come from i18n) ──────────────── */
+const SLIDE_ICONS = [
+  [
+    { icon: <Img3D src="/images/books-3d.png" alt="Books" />, labelColor: "#a5d8ff" },
+    { icon: <Img3D src="/images/target-3d.png" alt="Target" />, labelColor: "#b2f2bb" },
+    { icon: <Img3D src="/images/phone-3d.png" alt="Phone" />, labelColor: "#d0bfff" },
+    { icon: <Img3D src="/images/stars-3d.png" alt="Stars" />, labelColor: "#ffec99" },
+  ],
+  [
+    { icon: <Img3D src="/images/eye-3d.png" alt="Eye" />, labelColor: "#a5d8ff" },
+    { icon: <Img3D src="/images/lightning-3d.png" alt="Lightning" />, labelColor: "#ffec99" },
+    { icon: <Img3D src="/images/openbook-3d.png" alt="Open Book" />, labelColor: "#b2f2bb" },
+    { icon: <Img3D src="/images/brain-3d.png" alt="Brain" />, labelColor: "#d0bfff" },
+  ],
+  [
+    { icon: <Img3D src="/images/pdf-3d.png" alt="PDF" />, labelColor: "#ffc9c9" },
+    { icon: <Img3D src="/images/clipboard-3d.png" alt="Clipboard" />, labelColor: "#a5d8ff" },
+    { icon: <Img3D src="/images/robot-3d.png" alt="Robot" />, labelColor: "#d0bfff" },
+    { icon: <Img3D src="/images/rocket-3d.png" alt="Rocket" />, labelColor: "#ffec99" },
+  ],
+] as const;
 
 /* ─── Orbit Item (card + label, positioned on orbital ring) ─── */
 const OrbitItem: React.FC<{
@@ -239,18 +174,44 @@ const OrbitItem: React.FC<{
 
 /* ─── Main component ─────────────────────────────────────────── */
 export const Onboarding: React.FC<OnboardingProps> = ({ onDone }) => {
+  const { t, locale, setLocale } = useI18n();
   const [slide, setSlide] = useState(0);
   const [cardsVisible, setCardsVisible] = useState(false);
   const [leaving, setLeaving] = useState(false);
 
+  const slides = useMemo(() => {
+    const labelKeys: TranslationKey[][] = [
+      ["onboarding.s1.c0", "onboarding.s1.c1", "onboarding.s1.c2", "onboarding.s1.c3"],
+      ["onboarding.s2.c0", "onboarding.s2.c1", "onboarding.s2.c2", "onboarding.s2.c3"],
+      ["onboarding.s3.c0", "onboarding.s3.c1", "onboarding.s3.c2", "onboarding.s3.c3"],
+    ];
+    return [
+      {
+        title: [t("onboarding.s1.t0"), t("onboarding.s1.t1")] as [string, string],
+        subtitle: t("onboarding.s1.sub"),
+        cards: SLIDE_ICONS[0].map((c, i) => ({ ...c, label: t(labelKeys[0][i]) })),
+      },
+      {
+        title: [t("onboarding.s2.t0"), t("onboarding.s2.t1")] as [string, string],
+        subtitle: t("onboarding.s2.sub"),
+        cards: SLIDE_ICONS[1].map((c, i) => ({ ...c, label: t(labelKeys[1][i]) })),
+      },
+      {
+        title: [t("onboarding.s3.t0"), t("onboarding.s3.t1")] as [string, string],
+        subtitle: t("onboarding.s3.sub"),
+        cards: SLIDE_ICONS[2].map((c, i) => ({ ...c, label: t(labelKeys[2][i]) })),
+      },
+    ];
+  }, [t]);
+
   useEffect(() => {
     setCardsVisible(false);
-    const t = setTimeout(() => setCardsVisible(true), 80);
-    return () => clearTimeout(t);
+    const timer = setTimeout(() => setCardsVisible(true), 80);
+    return () => clearTimeout(timer);
   }, [slide]);
 
-  const isLast = slide === SLIDES.length - 1;
-  const current = SLIDES[slide];
+  const isLast = slide === slides.length - 1;
+  const current = slides[slide];
 
   const next = () => {
     if (isLast) {
@@ -275,6 +236,43 @@ export const Onboarding: React.FC<OnboardingProps> = ({ onDone }) => {
         overflow: "hidden",
       }}
     >
+      {/* Language toggle */}
+      <div
+        style={{
+          position: "absolute",
+          top: "max(16px, env(safe-area-inset-top))",
+          right: 16,
+          zIndex: 10,
+          display: "flex",
+          padding: 3,
+          borderRadius: 999,
+          background: "rgba(255,255,255,0.08)",
+          border: "1px solid rgba(255,255,255,0.12)",
+        }}
+      >
+        {(["tr", "en"] as const).map((code) => (
+          <button
+            key={code}
+            type="button"
+            onClick={() => setLocale(code)}
+            style={{
+              padding: "6px 10px",
+              borderRadius: 999,
+              border: "none",
+              cursor: "pointer",
+              fontSize: 11,
+              fontWeight: 700,
+              letterSpacing: "0.04em",
+              background: locale === code ? "#fff" : "transparent",
+              color: locale === code ? "#000" : "rgba(255,255,255,0.55)",
+              transition: "all 200ms ease",
+            }}
+          >
+            {code === "tr" ? t("app.langTr") : t("app.langEn")}
+          </button>
+        ))}
+      </div>
+
       {/* ── Orbit scene ─────────────────────────────────────── */}
       <div
         style={{
@@ -440,7 +438,7 @@ export const Onboarding: React.FC<OnboardingProps> = ({ onDone }) => {
           }}
         >
           <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
-            {SLIDES.map((_, i) => (
+            {slides.map((_, i) => (
               <button
                 key={i}
                 onClick={() => setSlide(i)}
@@ -537,7 +535,7 @@ export const Onboarding: React.FC<OnboardingProps> = ({ onDone }) => {
                 fontWeight: 500,
               }}
             >
-              Built by
+              {t("onboarding.builtBy")}
             </span>
             <span style={{ fontSize: 11, color: "#ffffff", fontWeight: 700 }}>
               Yunus Emre Salcan

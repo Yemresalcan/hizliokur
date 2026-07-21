@@ -10,12 +10,14 @@ import { Onboarding, useOnboarding } from './components/Onboarding';
 import { updateProgress } from './services/storageService';
 import { STORAGE, ORP_ARTIFACT_SCAN_LIMIT, WPM } from './constants';
 import { showToast } from './utils/toast';
+import { useI18n } from './i18n/I18nContext';
 
 const LS_WPM = 'hizliokur_wpm';
 const LS_FONT = 'hizliokur_fontSize';
 
 const App: React.FC = () => {
   const { show: showOnboarding, done: doneOnboarding, reopen: reopenOnboarding } = useOnboarding();
+  const { t, locale, setLocale } = useI18n();
 
   // Application State
   const [appState, setAppState] = useState<AppState>(AppState.IDLE);
@@ -194,18 +196,36 @@ const App: React.FC = () => {
       <main className="flex-1 flex flex-col w-full h-full relative z-10">
         {appState === AppState.IDLE ? (
           <div className="flex-1 flex flex-col animate-fade-in p-6 sm:p-8 overflow-y-auto">
-            <div className="mt-4 mb-8 flex items-center justify-between">
+            <div className="mt-4 mb-8 flex items-center justify-between gap-3">
               <button
                 onClick={reopenOnboarding}
                 className="text-left group"
                 style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}
               >
-                <h1 className="text-3xl font-display font-bold tracking-tight text-white mb-1 group-active:opacity-70 transition-opacity">HızlıOkur</h1>
-                <p className="text-secondary text-sm font-medium group-active:opacity-70 transition-opacity">Kütüphanen</p>
+                <h1 className="text-3xl font-display font-bold tracking-tight text-white mb-1 group-active:opacity-70 transition-opacity">{t('app.brand')}</h1>
+                <p className="text-secondary text-sm font-medium group-active:opacity-70 transition-opacity">{t('app.library')}</p>
               </button>
-              <div className="w-10 h-10 rounded-full bg-surfaceHighlight border border-white/10 flex items-center justify-center relative overflow-hidden shadow-[0_0_15px_rgba(139,92,246,0.15)]">
-                <div className="absolute inset-0 bg-gradient-to-tr from-cyan-500/10 via-blue-500/10 to-purple-500/10" />
-                <span className="text-xs font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400 z-10">AI</span>
+              <div className="flex items-center gap-2 shrink-0">
+                <div className="flex p-0.5 rounded-full bg-surfaceHighlight border border-white/10">
+                  {(['tr', 'en'] as const).map((code) => (
+                    <button
+                      key={code}
+                      type="button"
+                      onClick={() => setLocale(code)}
+                      className={`px-2.5 py-1 rounded-full text-[11px] font-bold tracking-wide transition-all ${
+                        locale === code
+                          ? 'bg-white text-black shadow-sm'
+                          : 'text-secondary hover:text-white'
+                      }`}
+                    >
+                      {code === 'tr' ? t('app.langTr') : t('app.langEn')}
+                    </button>
+                  ))}
+                </div>
+                <div className="w-10 h-10 rounded-full bg-surfaceHighlight border border-white/10 flex items-center justify-center relative overflow-hidden shadow-[0_0_15px_rgba(139,92,246,0.15)]">
+                  <div className="absolute inset-0 bg-gradient-to-tr from-cyan-500/10 via-blue-500/10 to-purple-500/10" />
+                  <span className="text-xs font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400 z-10">AI</span>
+                </div>
               </div>
             </div>
             <div className="flex-1 w-full max-w-2xl mx-auto">
@@ -219,7 +239,7 @@ const App: React.FC = () => {
                 rel="noopener noreferrer"
                 className="text-xs text-secondary/40 hover:text-secondary transition-colors"
               >
-                yunus emre salcan tarafından yapıldı
+                {t('app.madeBy')}
               </a>
             </div>
           </div>

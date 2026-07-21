@@ -1,4 +1,5 @@
 import * as pdfjsLib from 'pdfjs-dist';
+import { detectLocale, translate } from '../i18n/translations';
 
 // Set worker source to CDN to avoid build issues
 // Using unpkg as it often handles ESM better than cdnjs for some packages
@@ -62,6 +63,6 @@ export const extractTextFromPdf = async (file: File): Promise<ExtractedPdf> => {
     return { text: fullText.trim(), pageOffsets };
   } catch (error) {
     console.error('Error extracting text from PDF:', error);
-    throw new Error('PDF metni okunamadı. Lütfen dosyanın bozuk olmadığından emin olun.');
+    throw new Error(translate(detectLocale(), 'errors.pdfRead'));
   }
 };

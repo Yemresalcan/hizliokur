@@ -1,5 +1,6 @@
 import React from 'react';
 import { WordData } from '../types';
+import { useI18n } from '../i18n/I18nContext';
 
 interface ReaderDisplayProps {
   currentWord: WordData | null;
@@ -9,6 +10,7 @@ interface ReaderDisplayProps {
 }
 
 export const ReaderDisplay: React.FC<ReaderDisplayProps> = ({ currentWord, fontSize }) => {
+  const { t } = useI18n();
   
   // Calculate Text Size Class
   const getTextSizeClass = (size: number) => {
@@ -31,7 +33,7 @@ export const ReaderDisplay: React.FC<ReaderDisplayProps> = ({ currentWord, fontS
   if (!currentWord) {
     return (
       <div className="flex flex-col items-center justify-center h-full w-full animate-pulse">
-        <span className="text-secondary font-medium text-xl tracking-[0.2em] uppercase">Hazır</span>
+        <span className="text-secondary font-medium text-xl tracking-[0.2em] uppercase">{t('reader.ready')}</span>
       </div>
     );
   }

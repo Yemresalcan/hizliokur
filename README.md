@@ -27,7 +27,7 @@
 | Build | Vite 6 |
 | Stil | Tailwind CSS (CDN) |
 | PDF İşleme | pdfjs-dist |
-| AI | Google Gemini (`@google/genai`) |
+| AI | OpenRouter (OpenAI-compatible API) |
 | Depolama | localStorage + IndexedDB |
 | İkonlar | lucide-react |
 
@@ -38,7 +38,7 @@
 ### Gereksinimler
 
 - Node.js 18+
-- Gemini API anahtarı ([Google AI Studio](https://aistudio.google.com/))
+- OpenRouter API anahtarı ([openrouter.ai/keys](https://openrouter.ai/keys))
 
 ### Adımlar
 
@@ -51,7 +51,8 @@ cd h-zl-okur
 npm install
 
 # Ortam değişkenini ayarla
-echo "GEMINI_API_KEY=your_api_key_here" > .env
+cp .env.example .env
+# .env içine OPENROUTER_API_KEY değerini yaz
 
 # Geliştirme sunucusunu başlat
 npm run dev
@@ -83,7 +84,7 @@ npm run preview  # build'i yerel olarak önizle
 │   ├── Onboarding.tsx       # İlk kullanım tanıtım ekranı
 │   └── Toast.tsx            # Bildirim sistemi
 ├── services/
-│   ├── geminiService.ts     # Gemini AI metin üretimi
+│   ├── openRouterService.ts # OpenRouter AI metin üretimi
 │   ├── storageService.ts    # localStorage kitap yönetimi
 │   └── indexedDbService.ts  # IndexedDB PDF dosya depolama
 └── utils/
@@ -99,7 +100,7 @@ npm run preview  # build'i yerel olarak önizle
 
 | Değişken | Açıklama |
 |---|---|
-| `GEMINI_API_KEY` | Google Gemini API anahtarı (zorunlu) |
+| `OPENROUTER_API_KEY` | OpenRouter API anahtarı (zorunlu) |
 
 ---
 
