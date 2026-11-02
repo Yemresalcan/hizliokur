@@ -27,7 +27,7 @@ export const generatePracticeText = async (
         'HTTP-Referer':
           typeof window !== 'undefined'
             ? window.location.origin
-            : 'https://hizliokur.vercel.app',
+            : 'https://hizliokur.yesoftware.dev',
         'X-Title': 'HizliOkur',
       },
       body: JSON.stringify({
